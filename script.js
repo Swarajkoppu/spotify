@@ -138,7 +138,7 @@ async function displayAlbums() {
                                     fill="currentColor" />
                             </svg>
                         </div>
-                        <img src="/songs/${folder}/cover.jpeg" class="rounded" alt="swaraj playlist">
+                        <img src="https://raw.githubusercontent.com/swarajkoppu/spotify/main/songs/${folder}/cover.jpeg" class="rounded" alt="swaraj playlist">
                         <h2>${response.title}</h2>
                         <p>${response.description}</p>
                     </div>
