@@ -1,7 +1,7 @@
 var currentsong = new Audio()
 let songs = []
 let currfolder;
-const token = process.env.MY_ID; 
+const token = "${{ secrets.MY_ID }}";
 function secondsToMinutesSeconds(seconds) {
     // Calculate minutes and seconds
     const minutes = Math.floor(seconds / 60);
