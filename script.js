@@ -198,9 +198,17 @@ const playmusic = (track, pause = false) => {
     //let audio = new Audio("/songs/"+track)
     currentsong.src = `https://raw.githubusercontent.com/swarajkoppu/spotify/main/${currfolder}/${track}`;
     console.log(currentsong.src)
-    if (!pause) {
-        currentsong.play()
+   if (!pause) {
+        playPromise = currentsong.play()
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+            })
+            .catch(error => {
+                playPromise = currentsong.play()
+              // Show paused UI.
+            });
         play.src = "images/pause.svg"
+        }
     }
     document.querySelector(".songinfo").innerHTML = decodeURI(track)
     document.querySelector(".songtime").innerHTML = ""
