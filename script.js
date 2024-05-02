@@ -196,7 +196,7 @@ async function displayAlbums() {
 
 const playmusic = (track, pause = false) => {
     //let audio = new Audio("/songs/"+track)
-    currentsong.src = `/${currfolder}/` + track;
+    currentsong.src = `https://raw.githubusercontent.com/swarajkoppu/spotify/main/${currfolder}/${track}`;
     console.log(currentsong.src)
     if (!pause) {
         currentsong.play()
