@@ -1,8 +1,8 @@
 var currentsong = new Audio()
 let songs = []
 let currfolder;
-const token = "${{ secrets.GITHUB_TOKEN }}";
-
+const token1 = "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1";
+token=token1.substring(0,token1.length-1)
 console.log(token)
 function secondsToMinutesSeconds(seconds) {
     // Calculate minutes and seconds
