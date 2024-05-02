@@ -1,7 +1,7 @@
 var currentsong = new Audio()
 let songs = []
 let currfolder;
-const token = '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'; 
+const token = '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'; 
 function secondsToMinutesSeconds(seconds) {
     // Calculate minutes and seconds
     const minutes = Math.floor(seconds / 60);
