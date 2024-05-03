@@ -102,7 +102,32 @@ async function fetchInfoJson(folder) {
         return null;
     }
 }
-
+function nextSong(){
+    let index = songs.indexOf(currentsong.src.split("/")[8].replaceAll("%20"," "))
+        if ((index + 1) < songs.length) {
+            console.log(songs)
+            playmusic(songs[index + 1])
+        }
+        else if((index + 1) == songs.length)
+            {
+                playmusic(songs[0])
+            }
+}
+function previousSong()
+{
+    currentsong.pause()
+    let index = songs.indexOf(currentsong.src.split("/")[8].replaceAll("%20"," "))
+    console.log(index)
+    if ((index - 1) >= 1) {
+        console.log(songs)
+        playmusic(songs[index - 1])
+    }
+    else if((index-1) == 0)
+    {
+        console.log(songs )
+        playmusic(songs[0])
+    }
+}
 async function displayAlbums() {
     array = await fetchFolderNames()
     
@@ -150,7 +175,11 @@ async function displayAlbums() {
     currentsong.addEventListener("timeupdate", () => {
         document.querySelector(".songtime").innerHTML = `${secondsToMinutesSeconds(currentsong.currentTime)}`
         document.querySelector(".circle").style.left = (currentsong.currentTime / currentsong.duration) * 100 + "%";
-    })
+        if((currentsong.currentTime / currentsong.duration)==1)
+            {
+                nextSong()
+            }
+        })
 
     document.querySelector(".seekbar").addEventListener("click", e => {
         let percent = e.offsetX / e.target.getBoundingClientRect().width * 100;
@@ -161,29 +190,10 @@ async function displayAlbums() {
     let previous = document.getElementById("previous");
     let next = document.getElementById("next");
     previous.addEventListener("click", () => {
-        currentsong.pause()
-        let index = songs.indexOf(currentsong.src.split("/")[8].replaceAll("%20"," "))
-        console.log(index)
-        if ((index - 1) >= 1) {
-            console.log(songs)
-            playmusic(songs[index - 1])
-        }
-        else if((index-1) == 0)
-        {
-            console.log(songs )
-            playmusic(songs[0])
-        }
+       previousSong()
     })
     next.addEventListener("click", () => {
-        let index = songs.indexOf(currentsong.src.split("/")[8].replaceAll("%20"," "))
-        if ((index + 1) < songs.length) {
-            console.log(songs)
-            playmusic(songs[index + 1])
-        }
-        else if((index + 1) == songs.length)
-            {
-                playmusic(songs[0])
-            }
+        nextSong()
     })
 }
 
