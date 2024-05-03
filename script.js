@@ -5,7 +5,7 @@ const token1 = "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1";
 token=token1.substring(0,token1.length-1)
 console.log(token)
 function secondsToMinutesSeconds(seconds) {
-    // Calculate minutes and seconds
+    
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
 
@@ -66,17 +66,12 @@ async function fetchFolderNames() {
         });
         const data = await response.json();
 
-
-
-        // Ensure data is an array
         if (!Array.isArray(data)) {
             throw new Error('Response data is not an array.');
         }
 
-        // Filter out directories
         const folders = data.filter(item => item.type === 'dir');
 
-        // Extract folder names
         const folderNames = folders.map(folder => folder.name);
 
         return folderNames;
@@ -91,7 +86,7 @@ async function fetchInfoJson(folder) {
     const folderPath = `songs/${folder}`; // Change the folder path as needed
     const fileName = 'info.json';
 
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folderPath}/${fileName}`; // Replace 'YOUR_PERSONAL_ACCESS_TOKEN' with your actual token
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folderPath}/${fileName}`; 
 
     try {
         const response = await fetch(apiUrl, {
@@ -101,15 +96,11 @@ async function fetchInfoJson(folder) {
         });
         const data = await response.json();
 
-        // Check if the file exists
         if (!data.content) {
             throw new Error(`File ${fileName} not found in folder ${folderPath}.`);
         }
 
-        // Decode base64 content of the file
         const content = atob(data.content);
-
-        // Parse the JSON content
         const infoJson = JSON.parse(content);
 
         return infoJson;
@@ -191,6 +182,10 @@ async function displayAlbums() {
             console.log(songs)
             playmusic(songs[index + 1])
         }
+        else if((index + 1) == songs.length)
+            {
+                playmusic(songs[0])
+            }
     })
 }
 
@@ -205,7 +200,6 @@ const playmusic = (track, pause = false) => {
             })
             .catch(error => {
                 playPromise = currentsong.play()
-              // Show paused UI.
             });
         play.src = "images/pause.svg"
         }
