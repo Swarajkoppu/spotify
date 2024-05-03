@@ -240,7 +240,7 @@ body{
 @media (max-width : 1400px) {
     .body
     {
-        overflow: hidden;
+       overflow: scroll;
     }
     .left
     {
