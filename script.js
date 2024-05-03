@@ -178,17 +178,17 @@ async function displayAlbums() {
     let next = document.getElementById("next");
     previous.addEventListener("click", () => {
         currentsong.pause()
-        console.log(currentsong.src.split(`/`).slice(-1)[0])
-        let index = songs.indexOf(currentsong.src.split(`/`).slice(-1)[0])
+        let index = songs.indexOf(currentsong.src.split("/")[8].replaceAll("%20"," "))
+        console.log(index)
         if ((index - 1) >= 0) {
+            console.log(songs)
             playmusic(songs[index - 1])
         }
     })
     next.addEventListener("click", () => {
-        currentsong.pause()
-        console.log(currentsong.src)
-        let index = songs.indexOf(currentsong.src.split(`/`).slice(-1)[0])
+        let index = songs.indexOf(currentsong.src.split("/")[8].replaceAll("%20"," "))
         if ((index + 1) < songs.length) {
+            console.log(songs)
             playmusic(songs[index + 1])
         }
     })
