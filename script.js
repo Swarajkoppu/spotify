@@ -3,13 +3,9 @@ let songs = []
 let currfolder;
 const token1 = "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1";
 token=token1.substring(0,token1.length-1)
-console.log(token)
 function secondsToMinutesSeconds(seconds) {
-    
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
-
-    // Format the result as "mm:ss"
     const formattedMinutes = String(minutes).padStart(2, '0');
     const formattedSeconds = String(remainingSeconds).padStart(2, '0');
 
@@ -24,13 +20,16 @@ async function getSongs(folder) {
             'Authorization': `token ${token}`
         }
     })
-    console.log(a)
+    
     const data = await a.json();
+    console.log(data)
     for (let index = 0; index < data.length; index++) {
-            songs.push(data[index].name);
-        
+        if(data[index].name.match(".mp3")!=null)
+            {
+                songs.push(data[index].name);  
+            }
     }
-    console.log(songs)
+    
     let songul = document.querySelector(".songlist").getElementsByTagName("ul")[0]
     songul.innerHTML = ""
     for (const song of songs) {
@@ -47,7 +46,7 @@ async function getSongs(folder) {
 
     Array.from(document.querySelector(".songlist").getElementsByTagName("li")).forEach(e => {
         e.addEventListener("click", element => {
-            console.log(e.querySelector(".info").firstElementChild.innerHTML)
+            
             playmusic(e.querySelector(".info").firstElementChild.innerHTML.trim())
         })
     });
@@ -56,8 +55,6 @@ async function getSongs(folder) {
 
 async function fetchFolderNames() {
     const apiUrl = 'https://api.github.com/repos/swarajkoppu/spotify/contents/songs/';
-    // Replace 'YOUR_PERSONAL_ACCESS_TOKEN' with your actual token
-
     try {
         const response = await fetch(apiUrl, {
             headers: {
@@ -65,13 +62,11 @@ async function fetchFolderNames() {
             }
         });
         const data = await response.json();
-
+        
         if (!Array.isArray(data)) {
             throw new Error('Response data is not an array.');
         }
-
         const folders = data.filter(item => item.type === 'dir');
-
         const folderNames = folders.map(folder => folder.name);
 
         return folderNames;
@@ -83,10 +78,10 @@ async function fetchFolderNames() {
 async function fetchInfoJson(folder) {
     const owner = 'swarajkoppu';
     const repo = 'spotify';
-    const folderPath = `songs/${folder}`; // Change the folder path as needed
+    const folderPath = `songs/${folder}`; 
     const fileName = 'info.json';
 
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folderPath}/${fileName}`; 
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folderPath}/${fileName}`;
 
     try {
         const response = await fetch(apiUrl, {
@@ -95,11 +90,9 @@ async function fetchInfoJson(folder) {
             }
         });
         const data = await response.json();
-
         if (!data.content) {
             throw new Error(`File ${fileName} not found in folder ${folderPath}.`);
         }
-
         const content = atob(data.content);
         const infoJson = JSON.parse(content);
 
@@ -112,11 +105,11 @@ async function fetchInfoJson(folder) {
 
 async function displayAlbums() {
     array = await fetchFolderNames()
-    console.log(array)
+    
     for (let index = 0; index < array.length; index++) {
         const folder = array[index];
         response = await fetchInfoJson(folder)
-        console.log(response)
+        
         cardContainer = document.querySelector(".cardContainer")
         cardContainer.innerHTML = cardContainer.innerHTML + `
             <div class="card p-1 rounded" data-folder="${folder}">
@@ -171,9 +164,14 @@ async function displayAlbums() {
         currentsong.pause()
         let index = songs.indexOf(currentsong.src.split("/")[8].replaceAll("%20"," "))
         console.log(index)
-        if ((index - 1) >= 0) {
+        if ((index - 1) >= 1) {
             console.log(songs)
             playmusic(songs[index - 1])
+        }
+        else if((index-1) == 0)
+        {
+            console.log(songs )
+            playmusic(songs[0])
         }
     })
     next.addEventListener("click", () => {
@@ -190,10 +188,10 @@ async function displayAlbums() {
 }
 
 const playmusic = (track, pause = false) => {
-    //let audio = new Audio("/songs/"+track)
+    console.log(currfolder)
     currentsong.src = `https://raw.githubusercontent.com/swarajkoppu/spotify/main/${currfolder}/${track}`;
     console.log(currentsong.src)
-   if (!pause) {
+    if (!pause) {
         playPromise = currentsong.play()
         if (playPromise !== undefined) {
             playPromise.then(_ => {
@@ -210,11 +208,7 @@ const playmusic = (track, pause = false) => {
 
 
 async function main() {
-
     displayAlbums()
-
-
-
     document.querySelector(".hambergur").addEventListener("click", () => {
         document.querySelector(".left").style.left = "0px"
     })
