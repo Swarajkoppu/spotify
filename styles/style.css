@@ -291,8 +291,8 @@ body{
     .cardContainer
     {
         z-index: -1;
-        overflow:auto;
-        min-height: 75vh;
+        overflow:scroll;
+        min-height: 65vh;
     }
     .abovebar
     {
