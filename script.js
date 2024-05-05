@@ -55,9 +55,6 @@ function likedsongsrender() {
                     <div class="info">
                         <div class="songname" data-album=${likes[index].album}>${likes[index].song}</div>
                     </div>
-                    <div class="queue">
-                        <img class="invert" src="images/heart.svg" alt="">
-                    </div>
                     <div class="playnow">
                         <img class="invert" src="images/play.svg" alt="">
                     </div></li>`;
