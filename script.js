@@ -152,7 +152,7 @@ async function getSongs(folder) {
                 }
                 else
                 {
-                    this.innerHTML="<div class='notliked'><img src='images/heart.svg' alt='notliked'></div> "
+                    this.innerHTML="<div class='notliked invert'><img src='images/heart.svg' alt='notliked'></div> "
                     deleteLikedSong(currfolder.replaceAll(" ", "_"), songName.replaceAll("%20", " "))
                     likedsongsrender()
                 }
