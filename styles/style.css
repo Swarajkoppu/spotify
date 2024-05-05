@@ -10,16 +10,34 @@
 body{
    background-color: black;
    color: white;
-
+    overflow: hidden;
 }
 .left
 {
-    width:25vw;
+    width:25%;
 }
 .right
 {
-    width:75vw;
+    width:50%;
     position : relative;
+}
+.queuebar
+{
+    width: 25%;
+    position : relative;
+}
+#closequeue
+{
+    display: none;
+}
+.queuelist
+{
+    height : 815px;
+    overflow: auto;
+}
+.close
+{
+    display: none;
 }
 .home ul li{
     list-style: none;
@@ -151,7 +169,7 @@ body{
     display: flex;
     justify-content: space-between;
     gap :12px;
-    cursor: pointer;
+    
     padding  :12px 0px;
     background-color:  #070707;
     margin :12px 0;
@@ -184,14 +202,43 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-
+    cursor: pointer;
+}
+#queuebarbutton
+{
+    display: none;
 }
 .playnow span
 {
     font-size: 15px;
     width:64px;
 }
-
+.queuelist ul
+{
+    padding : 0 10px;
+}
+.queuelist ul li{
+    list-style-type:decimal;
+    display: flex;
+    justify-content: space-between;
+    gap :12px;
+    
+    padding  :12px 0px;
+    background-color:  #070707;
+    margin :12px 0;
+    padding :13px;
+    border-radius: 5px;
+}
+.queuelist
+{
+    height : 828px;
+    overflow: auto;
+}
+.queuelist .info
+{
+    font-size: 13px;
+    width :344px;
+}
 .seekbar
 {
     height: 4px;
@@ -240,7 +287,7 @@ body{
 @media (max-width : 1400px) {
     .body
     {
-       overflow: scroll;
+        overflow: auto;
     }
     .left
     {
@@ -250,6 +297,29 @@ body{
         z-index: 2;
         width: 333px;
         background-color: rgb(0, 0, 0);
+    }
+    .queuebar
+    {
+        position: absolute;
+        left : -100%;
+        transition: all 0.3s;
+        z-index: 2;
+        width: 333px;
+        background-color: rgb(0, 0, 0);
+    }
+    #queuebarbutton
+    {
+        display: block;
+    }
+    .close
+    {
+        display: block;
+    }
+    #closequeue
+    {
+        display: block;
+        margin-top: 0;
+        padding-top:0 ;
     }
     .card
     {
@@ -291,7 +361,7 @@ body{
     .cardContainer
     {
         z-index: -1;
-        overflow:scroll;
+        overflow: auto;
         min-height: 65vh;
     }
     .abovebar
@@ -317,6 +387,11 @@ body{
         height : 50vh;
         overflow: auto;
     }
+    .queuelist
+    {
+        height : 83vh;
+        overflow: auto;
+    }
     .library
     {
         min-height: 65vh;
@@ -326,5 +401,9 @@ body{
         width: 100px;
         height: 30px;
         overflow: hidden;
+    }
+    #closequeue
+    {
+        cursor: pointer;
     }
 }
