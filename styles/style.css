@@ -21,6 +21,10 @@ body{
     width:50%;
     position : relative;
 }
+#likedlist
+{
+    display: none;
+}
 .queuebar
 {
     width: 25%;
@@ -41,7 +45,7 @@ body{
 }
 .home ul li{
     list-style: none;
-    width: 14px;
+    width: 20px;
     display: flex;
     gap: 15px;
     padding-top:14px;
@@ -183,6 +187,12 @@ body{
     right: 31px;
     width : 29px;
 }
+.close2{
+    position: absolute;
+    top: 20px;
+    right: 31px;
+    width : 29px;
+}
 .songlist
 {
     height : 695px;
@@ -206,6 +216,7 @@ body{
 }
 #queuebarbutton
 {
+    cursor: pointer;
     display: none;
 }
 .playnow span
@@ -283,6 +294,18 @@ body{
     display: flex;
     justify-content: space-between;
 }
+.likecard
+{
+    width :200px;
+    content: center;
+    padding-top: 5px;
+    position: relative;
+}
+.likecard img 
+{
+    width: 100%;
+    object-fit: contain;
+}
 
 @media (max-width : 1400px) {
     .body
@@ -307,9 +330,12 @@ body{
         width: 333px;
         background-color: rgb(0, 0, 0);
     }
+    #likedlist{
+        display: block;
+    }
     #queuebarbutton
     {
-        display: block;
+        display: flex;
     }
     .close
     {
@@ -322,6 +348,13 @@ body{
         padding-top:0 ;
     }
     .card
+    {
+        width :130px;
+        content: center;
+        padding-top: 5px;
+        position: relative;
+    }
+    .likecard
     {
         width :130px;
         content: center;

@@ -1,6 +1,6 @@
 var currentsong = new Audio()
 let songs = []
-let songqueue = []
+let likedsongs = []
 let currfolder;
 const token1 = "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1";
 token = token1.substring(0, token1.length - 1)
@@ -30,7 +30,17 @@ function getLikedSongs() {
         return [];
     }
 }
-
+function deleteLikedSong(albumName, songName) {
+    if (typeof(Storage) !== "undefined") {
+        var likedSongs = JSON.parse(localStorage.getItem("likedSongs")) || [];
+        likedSongs = likedSongs.filter(function(song) {
+            return song.album !== albumName || song.song !== songName;
+        });
+        localStorage.setItem("likedSongs", JSON.stringify(likedSongs));
+    } else {
+        console.log("Sorry, your browser does not support Web Storage...");
+    }
+}
 function getMp3Name(filePath) {
     const parts = filePath.split('/');
     const mp3Name = parts[parts.length - 1];
@@ -45,7 +55,9 @@ function likedsongsrender() {
     let likes = getLikedSongs()
     for (let index = 0; index < likes.length; index++) {
         songs.push(likes[index].album.replaceAll("_"," ")+"/"+likes[index].song)
+        likedsongs.push(likes[index].album.replaceAll("_"," ")+"/"+likes[index].song)   
     }
+    console.log(likedsongs)
     let queuelist = document.querySelector(".queuelist").getElementsByTagName("ul")[0]
     queuelist.innerHTML = ""
     console.log(likes)
@@ -69,6 +81,22 @@ function likedsongsrender() {
             });
         });
     }
+}
+function likedornot(album,song)
+{
+    liked= false
+    for(index=0;index<likedsongs.length;index++)
+        {
+            if(likedsongs[index]==("songs/"+album+"/"+song))
+                {
+                    liked=true
+                    break
+                }
+        }
+    if(liked)
+        return "<div class='alreadyliked'><img src='images/alreadyliked.svg' alt='alreadyliked'></div> "
+    else
+        return "<div class='notliked'><img src='images/heart.svg' alt='notliked'></div> "
 }
 async function getSongs(folder) {
     currfolder = folder;
@@ -97,7 +125,7 @@ async function getSongs(folder) {
             <div class="songname" data-album=${"songs/" + getAlbum(song).replaceAll(" ", "_")}>${getMp3Name(song)}</div>
         </div>
         <div class="queue">
-            <img class="invert" src="images/heart.svg" alt="">
+            ${likedornot(getAlbum(song),getMp3Name(song))}
         </div>
         <div class="playnow">
             <img class="invert" src="images/play.svg" alt="">
@@ -116,8 +144,18 @@ async function getSongs(folder) {
     queueButtons.forEach(button => {
         button.addEventListener('click', function () {
             const songName = this.parentElement.querySelector('.songname').textContent;
-            addLikedSong(currfolder.replaceAll(" ", "_"), songName.replaceAll("%20", " "))
-            likedsongsrender()
+            if(this.firstElementChild.className=="notliked")
+                {
+                    this.innerHTML="<div class='alreadyliked'><img src='images/alreadyliked.svg' alt='alreadyliked'></div>"
+                    addLikedSong(currfolder.replaceAll(" ", "_"), songName.replaceAll("%20", " "))
+                    likedsongsrender()
+                }
+                else
+                {
+                    this.innerHTML="<div class='notliked'><img src='images/heart.svg' alt='notliked'></div> "
+                    deleteLikedSong(currfolder.replaceAll(" ", "_"), songName.replaceAll("%20", " "))
+                    likedsongsrender()
+                }
         });
     });
 
@@ -222,13 +260,14 @@ async function displayAlbums() {
                         <p>${response.description}</p>
                     </div>
             `
+            Array.from(document.getElementsByClassName("card")).forEach(e => {
+                e.addEventListener("click", async item => {
+                    await getSongs(`songs/${item.currentTarget.dataset.folder}`)
+                    document.querySelector(".left").style.left = "0px"
+                })
+            })
     }
-    Array.from(document.getElementsByClassName("card")).forEach(e => {
-        e.addEventListener("click", async item => {
-            await getSongs(`songs/${item.currentTarget.dataset.folder}`)
-            document.querySelector(".left").style.left = "0px"
-        })
-    })
+    
 
 
     play.addEventListener("click", () => {
@@ -287,8 +326,10 @@ const playmusic = (album, track, pause = false) => {
 
 
 async function main() {
-    displayAlbums()
     likedsongsrender()
+    
+    displayAlbums()
+    
     document.querySelector(".hambergur").addEventListener("click", () => {
         document.querySelector(".left").style.left = "0px"
     })
