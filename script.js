@@ -256,7 +256,7 @@ async function displayAlbums() {
                             </svg>
                         </div>
                         <img src="https://raw.githubusercontent.com/swarajkoppu/spotify/main/songs/${folder}/cover.jpeg" class="rounded" alt="swaraj playlist">
-                        <h2>${response.title}</h2>
+                        <h3>${response.title}</h3>
                         <p>${response.description}</p>
                     </div>
             `
