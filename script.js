@@ -2,7 +2,7 @@ var currentsong = new Audio()
 let songs = []
 let likedsongs = []
 let currfolder;
-const token1 = "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1";
+const token1 = "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1";
 token = token1.substring(0, token1.length - 1)
 function secondsToMinutesSeconds(seconds) {
     const minutes = Math.floor(seconds / 60);
